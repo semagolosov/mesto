@@ -6,8 +6,6 @@ const openPopup = document.querySelector(".profile__edit-button");
 //кнопка изменить//
 const closePopup = document.querySelector(".popup__button-close");
 //закрыть//
-const submitPop = document.querySelector(".popup__buttom-save");
-//сохранить//
 const nameInput = popForm.querySelector(".popup__input_type_name");
 //поиск поля для имени//
 const jobInput = popForm.querySelector(".popup__input_type_job");
@@ -17,18 +15,20 @@ const profileName = document.querySelector(".profile__name");
 const profileJob = document.querySelector(".profile__job");
 //о работе//
 
-//функция сохраниения с закрытием//
+
+
+
+function openClose () {
+  popUp.classList.toggle('popup_opened');
+}
+
 function formSubmitHandler(evt) {
   evt.preventDefault();
   
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   openClose();
-} 
-
-function openClose () {
-  popUp.classList.toggle('popup_opened');
-}
+}  
 
 closePopup.addEventListener("click", () => {
   openClose();
