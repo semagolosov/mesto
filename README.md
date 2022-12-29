@@ -8,4 +8,4 @@
 - Флекс
 - Формы
 
-#### [Ссылка на gh-pages](https://www.google.com)
+#### [Ссылка на gh-pages](https://semagolosov.github.io/mesto/)
