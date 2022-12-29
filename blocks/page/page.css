@@ -1,0 +1,18 @@
+.page {
+  background-color: black;
+  max-width: 880px;
+  margin: 0 auto;
+  color: white;
+  text-rendering: optimizeLegibility;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  padding-top: 28px;
+}
+
+
+@media (min-width: 880px){
+  .page {
+    padding-top: 45px;
+  }
+  }

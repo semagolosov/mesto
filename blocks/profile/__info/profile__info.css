@@ -1,0 +1,14 @@
+.profile__info{
+  width: 100%;
+  margin-bottom: 36px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  order: 1;
+}
+
+@media (min-width: 880px) {
+  .profile__info {
+    margin-bottom: 0;
+  }
+}

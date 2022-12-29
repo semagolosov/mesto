@@ -1,0 +1,10 @@
+.places{
+  margin: 0  auto 48px;
+}
+
+
+@media (min-width: 880px){
+  .places {
+      margin-bottom: 68px;
+  }
+  }
