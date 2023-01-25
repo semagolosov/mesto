@@ -108,14 +108,12 @@ const createCard = (name, link) => {
   setOpenImgPopupEventListener(cardImg); 
   setDeleteCardEventListener(trashButton); 
   
-
-
   return cardElement; 
 };
 
 //создание карточек из массива
 initialCardsElement.forEach((element) => {
-  listPlaces.append(createCard(element.name, element.link, element.name)); 
+  listPlaces.append(createCard(element.name, element.link)); 
 });
 
 //закрытие попапа
@@ -130,7 +128,7 @@ buttonClose.forEach((element) => {
 const addCard = () => {
   
   listPlaces.prepend(
-    createCard(inputTitle.value, linkInput.value, inputTitle.value)
+    createCard(inputTitle.value, linkInput.value)
   );
   closePopup(popupCard); 
   formCard.reset(); 
