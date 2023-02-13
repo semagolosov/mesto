@@ -18,11 +18,11 @@ function enableValidation (config) {
 }
 
 // функция проверки кнопки, 
-function toggleButton (form, config) {
-  const submitButton = form.querySelector(config.buttonSelector);
+function toggleSubmit(form, config) {
   const isFormValid = form.checkValidity();
-  submitButton.disabled = !isFormValid;
-  submitButton.classList.toggle(config.buttonDisabledClass, !isFormValid);
+  const submit = form.querySelector(config.buttonSelector);
+  submit.disabled = !isFormValid;
+  submit.classList.toggle(config.buttonDisabledClass, !isFormValid);
 }
 
 // функция дизейбл кнопки отправки
@@ -32,29 +32,28 @@ function disableSubmit (event) {
 
 // валидация
 function enableFormValidation(form, config) {
-  
   form.addEventListener('submit', disableSubmit);
   form.addEventListener('input', () => {
-    toggleButton(form, config);
+    toggleSubmit(form, config);
   });
   addInputListeners(form, config);
-  toggleButton(form, config);
+  toggleSubmit(form, config);
 }
 
 
 
 //функция проверки инпута => добавление или удаление класса и текста ошибки
-function handleFormInput (event, config) {
+function checkFormInput (event, config) {
   const input = event.target;
   const inputId = input.id;
-  const errorElement = document.querySelector(`#${inputId}-error`);
+  const errorItem = document.querySelector(`#${inputId}-error`);
   
   if (input.validity.valid) {
     input.classList.remove(config.inputErrorClass);
-    errorElement.textContent = '';
+    errorItem.textContent = '';
   } else {
     input.classList.add(config.inputErrorClass);
-    errorElement.textContent = input.validationMessage;
+    errorItem.textContent = input.validationMessage;
   }
 }
 
@@ -65,7 +64,7 @@ function addInputListeners (form, config) {
   const inputList = Array.from(form.querySelectorAll(config.inputSelector));
   inputList.forEach(function (item) {
     item.addEventListener('input', (event) => {
-      handleFormInput(event, config)
+      checkFormInput(event, config)
     });
   });
 }
