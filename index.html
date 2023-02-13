@@ -31,32 +31,41 @@
   <footer class="footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
-  
+
   <div class="popup popup_type_profile">
+    <div class="popup__overlay"></div>
     <div class="popup__container">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form class="popup__form popup__form_type_profile" method="post" name="popup__form">
-        <input class="popup__input popup__input_type_name" type="text" name="name" required placeholder="Введите имя">
-        <input class="popup__input popup__input_type_job" type="text" name="job" required
-          placeholder="Введите место работы">
+      <form class="popup__form popup__form_type_profile" method="post" name="profile" novalidate>
+        <input class="popup__input popup__input_type_name" id="input-name" type="text" name="name" required
+          placeholder="Введите имя" minlength="2" maxlength="40" value="Введите имя">
+        <span class="popup__error name-error" id="input-name-error"></span>
+        <input class="popup__input popup__input_type_job" id="input-job" type="text" name="job" required
+          placeholder="Введите место работы" minlength="2" maxlength="200" value="Введите место работы">
+        <span class="popup__error job-error" id="input-job-error"></span>
         <button class="popup__button-save" type="submit">Сохранить</button>
       </form>
       <button class="popup__button-close" type="button"></button>
     </div>
   </div>
   <div class="popup popup_type_place">
+    <div class="popup__overlay"></div>
     <div class="popup__container">
       <h2 class="popup__title">Новое место</h2>
-      <form class="popup__form popup__form_type_place" method="post" name="popup__form">
-        <input class="popup__input popup__input_type_name" type="text" name="name" required placeholder="Название">
-        <input class="popup__input popup__input_type_link" type="text" name="link" required
+      <form class="popup__form popup__form_type_place" id="place" method="post" name="place" novalidate>
+        <input class="popup__input popup__input_type_name" id="input-place" type="text" name="name" required
+          placeholder="Название" minlength="2" maxlength="30">
+        <span class="popup__error title-error" id="input-place-error"></span>
+        <input class="popup__input popup__input_type_link" id="input-link" type="url" name="link" required
           placeholder="Ссылка на картинку">
+        <span class="popup__error link-error" id="input-link-error"></span>
         <button class="popup__button-save" type="submit">Создать</button>
       </form>
       <button class="popup__button-close" type="button"></button>
     </div>
   </div>
   <div class="popup popup_type_img">
+    <div class="popup__overlay"></div>
     <div class="popup__container popup__container_type_img">
       <img class="popup__img" src="#" alt>
       <h2 class="popup__name">Название картинки</h2>
@@ -74,7 +83,9 @@
     </li>
   </template>
   <script src="./scripts/cards.js"></script>
+  <script src="./scripts/validate.js"></script>
   <script src="./scripts/index.js"></script>
+
 </body>
 
 </html>

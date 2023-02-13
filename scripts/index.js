@@ -32,11 +32,17 @@ const listPlaces = document.querySelector('.places__list');
 // данные имени и работы
 const profileName = document.querySelector('.profile__name'); 
 const profileJob = document.querySelector('.profile__job'); 
+//оверлэй
+const overlays = document.querySelectorAll('.popup__overlay');
 
-
-
-
-
+const objectData =  {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button-save_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}; 
 
 //функция открытия попапа
 const openPopup = (popupElement) => {
@@ -146,6 +152,49 @@ buttonEdit.addEventListener('click', () => {
   inputName.value = profileName.textContent;
   inputJob.value = profileJob.textContent;
 });
+
+
+
+//esc
+document.addEventListener('keydown', function(evt){
+  if (evt.key === 'Escape'){
+   closePopup(popupProfile);
+  };
+})
+
+document.addEventListener('keydown', function(evt){
+  if (evt.key === 'Escape'){
+   closePopup(popupCard);
+  };
+})
+
+document.addEventListener('keydown', function(evt){
+  if (evt.key === 'Escape'){
+   closePopup(popupImg);
+  };
+})
+//esc
+
+//overlay
+overlays.forEach((overlay) =>
+  overlay.addEventListener("mousedown", (event) =>
+    closePopup(popupProfile)
+  )
+);
+
+overlays.forEach((overlay) =>
+  overlay.addEventListener("mousedown", (event) =>
+    closePopup(popupCard)
+  )
+);
+
+overlays.forEach((overlay) =>
+  overlay.addEventListener("mousedown", (event) =>
+    closePopup(popupImg)
+  )
+);
+//overlay 
+
 
 
 
