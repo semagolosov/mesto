@@ -35,7 +35,6 @@ function enableFormValidation(form, config) {
     toggleSubmit(form, config, submit);
     checkFormInput(event, config)
   });
-  addInputListeners(form, config);
   toggleSubmit(form, config, submit);
   addResetEventListener(form, config, submit);
   
@@ -66,8 +65,6 @@ function addResetEventListener(form, config, submit) {
     }, 0);
   });
 }
-
-
 
 
 enableValidation(validationConfig);
