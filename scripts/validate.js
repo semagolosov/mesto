@@ -37,7 +37,7 @@ function enableFormValidation(form, config) {
   });
   addInputListeners(form, config);
   toggleSubmit(form, config, submit);
-  deactivateButton(form, config, submit);
+  addResetEventListener(form, config, submit);
   
 }
 
@@ -59,7 +59,7 @@ function checkFormInput(event, config) {
 }
 
 //деактивация кнопки - reset
-function deactivateButton(form, config, submit) {
+function addResetEventListener(form, config, submit) {
   form.addEventListener('reset', () => {
     setTimeout(() => {
       toggleSubmit(form, config, submit);
