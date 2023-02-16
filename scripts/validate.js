@@ -69,9 +69,5 @@ function addResetEventListener(form, config, submit) {
 
 
 
-// функция нахождения и перебор всех инпутов
-function addInputListeners(form, config) {
-  const inputList = Array.from(form.querySelectorAll(config.inputSelector));
-}
 
 enableValidation(validationConfig);
