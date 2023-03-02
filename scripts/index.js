@@ -1,5 +1,9 @@
+import {FormValidator}  from "./validate.js";
+import Cards from "./cards.js";
+import { initialCards, validationConfig } from "./constants.js";
+
+
 //кнопки
-const buttonsClose = document.querySelectorAll('.popup__button-close');
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonAdd = document.querySelector('.profile__add-button');
 
@@ -34,13 +38,25 @@ const profileJob = document.querySelector('.profile__job');
 //оверлэй
 const overlays = document.querySelectorAll('.popup__overlay');
 
+const validateProfileForm = new FormValidator(validationConfig, formProfile);
+const validateCardForm = new FormValidator(validationConfig, formCard);
+validateCardForm.enableFormValidation();
+validateProfileForm.enableFormValidation();
+
+//функция открыте попапа с данными
+const createCard =(data) => {
+  const card = new Cards(data, '.card__template', setOpenImgPopupEventListener);
+  return card.generateCard(); 
+};
+
+//
+
 
 //функция открытия попапа
 const openPopup = (popupElement) => {
   popupElement.classList.add('popup_opened');
   document.addEventListener('keydown', closePopupEsc);
 };
-
 
 //функция закрытия поапа
 const closePopup = (popupElement) => {
@@ -49,36 +65,27 @@ const closePopup = (popupElement) => {
 };
 
 // функция открытия попапа с картинкой
-const setOpenImgPopupEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
+const setOpenImgPopupEventListener = (photo) => {
+  openPopup(popupImg);
 
-    openPopup(popupImg);
-    elementPopupTitle.textContent =
-      evt.target.closest('.places__item').textContent;
-    elementPopupImg.src = element.src;
-    elementPopupImg.alt = element.alt;
-  });
+  elementPopupTitle.textContent = photo.name;
+  elementPopupImg.src = photo.link;
+  elementPopupImg.alt = photo.alt;
 };
 
-//удаление карточки
-const setDeleteCardEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
-    const listItem = evt.target.closest('.places__item');
-    listItem.remove();
-  });
-};
-
-
-//лайк диздайк 
-const setToggleLikeEventListener = (element) => {
-  element.addEventListener('click', (evt) => {
-    evt.target.classList.toggle('places__button-like_active');
-  });
-};
-
+//функция вставки карточки
+const prependCard = () => {
+  listPlaces.prepend(createCard(
+    {
+    name: inputTitle.value,
+    link: linkInput.value,
+    alt: inputTitle.value,
+  }
+  ));
+}
 
 //функция сохранения изменений в форме + закрытие
-const handleProfileFormSubmit = () => {
+const handleProfileFormSubmit = (evt) => {
   profileJob.textContent = inputJob.value;
   profileName.textContent = inputName.value;
   closePopup(popupProfile);
@@ -86,55 +93,18 @@ const handleProfileFormSubmit = () => {
 
 
 
-//функция создания карточки 
-const createCard = (name, link) => {
-
-
-  const cardElement = cardTemplate.cloneNode(true);
-  const likeButton = cardElement.querySelector('.places__button-like');
-  const cardImg = cardElement.querySelector('.places__image');
-  const cardTitle = cardElement.querySelector('.places__title');
-  const trashButton = cardElement.querySelector('.places__button-trash');
-
-
-
-  cardTitle.textContent = name;
-  cardImg.src = link;
-  cardImg.alt = name;
-
-  setToggleLikeEventListener(likeButton);
-  setOpenImgPopupEventListener(cardImg);
-  setDeleteCardEventListener(trashButton);
-
-  return cardElement;
-};
-
-//создание карточек из массива
-initialCards.forEach((element) => {
-  listPlaces.append(createCard(element.name, element.link));
-});
-
-//закрытие попапа
-buttonsClose.forEach((element) => {
-  element.addEventListener('click', (evt) => {
-    const popupItem = evt.target.closest('.popup');
-    closePopup(popupItem);
-  });
-});
 
 //функция добавления карточки
 const handleCardFormSubmit = () => {
-
-  listPlaces.prepend(
-    createCard(inputTitle.value, linkInput.value)
-  );
+  prependCard();
   closePopup(popupCard);
   formCard.reset();
 };
 
-//открытие попапа создания карточки
-buttonAdd.addEventListener('click', () => {
-  openPopup(popupCard);
+
+//генерация карточек
+initialCards.forEach((element) => {
+  listPlaces.append(createCard(element));
 });
 
 
@@ -145,6 +115,22 @@ buttonEdit.addEventListener('click', () => {
   inputJob.value = profileJob.textContent;
 });
 
+//открытие попапа создания карточки
+buttonAdd.addEventListener('click', () => {
+  openPopup(popupCard);
+});
+
+
+//слушатель закрытия попапов по кнопке закрыть
+const setButtonsClose = (element) => {
+  const buttonClose = element.querySelector('.popup__button-close');
+  buttonClose.addEventListener('click', () => {
+    closePopup(element);
+  });
+};
+setButtonsClose(popupCard);
+setButtonsClose(popupImg);
+setButtonsClose(popupProfile)
 
 //esc
 function closePopupEsc(event) {

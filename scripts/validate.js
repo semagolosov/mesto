@@ -1,70 +1,73 @@
-const validationConfig = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  buttonSelector: '.popup__button-save',
-  buttonDisabledClass: 'popup__button-save_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible',
-};
-
-
-// поиск и перебор форм + валдации
-function enableValidation(config) {
-  const formSeries = Array.from(document.querySelectorAll(config.formSelector));
-  formSeries.forEach((form) => {
-    enableFormValidation(form, config);
-  });
-}
-
-// функция проверки кнопки 
-function toggleSubmit(form, config, submit) {
-  const isFormValid = form.checkValidity();
-  submit.disabled = !isFormValid;
-  submit.classList.toggle(config.buttonDisabledClass, !isFormValid);
-}
+class FormValidator {
+  constructor(validationConfig, formElement){
+    this._formElement = formElement;
+    this._inputSelector = validationConfig.inputSelector;
+    this._buttonSelector = validationConfig.buttonSelector;
+    this._buttonDisabledClass = validationConfig.buttonDisabledClass;
+    this._inputErrorClass = validationConfig.inputErrorClass;
+  }
 
 // функция дизейбл кнопки отправки
-function disableSubmit(event) {
+_disabledSubmit(event) {
   event.preventDefault();
 }
 
-// валидация
-function enableFormValidation(form, config) {
-  const submit = form.querySelector(config.buttonSelector);
-  form.addEventListener('input', (event) => {
-    toggleSubmit(form, config, submit);
-    checkFormInput(event, config)
-  });
-  toggleSubmit(form, config, submit);
-  addResetEventListener(form, config, submit);
-  
-}
-
-
 
 //функция проверки инпута => добавление или удаление класса и текста ошибки
-function checkFormInput(event, config) {
+_handleFormInput(event) {
   const input = event.target;
   const inputId = input.id;
   const errorItem = document.querySelector(`#${inputId}-error`);
 
   if (input.validity.valid) {
-    input.classList.remove(config.inputErrorClass);
+    input.classList.remove(this._inputErrorClass);
     errorItem.textContent = '';
   } else {
-    input.classList.add(config.inputErrorClass);
+    input.classList.add(this._inputErrorClass);
     errorItem.textContent = input.validationMessage;
   }
 }
+//функция проверки инпута => добавление или удаление класса и текста ошибки
+_toggleSubmit(){
+  const buttonSubmit = this._formElement.querySelector(this._buttonSelector);
+  const isFormValid = this._formElement.checkValidity();
 
-//деактивация кнопки - reset
-function addResetEventListener(form, config, submit) {
-  form.addEventListener('reset', () => {
-    setTimeout(() => {
-      toggleSubmit(form, config, submit);
-    }, 0);
-  });
+  buttonSubmit.disabled = !isFormValid;
+  buttonSubmit.classList.toggle(this._buttonDisabledClass, !isFormValid);
 }
 
 
-enableValidation(validationConfig);
+// функция проверки кнопки 
+_addInputListeners(){
+  const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+
+  inputList.forEach((item) => {
+    item.addEventListener('input', (event)=> {
+      this._handleFormInput(event)
+    });
+  });
+}
+
+// деактивация кнопки - reset
+_addResetEventListener(){
+  this._formElement.addEventListener('reset', ()=> {
+    setTimeout(() => {
+      this._toggleSubmit();
+    }, 0);
+  })
+}
+
+//валидация
+enableFormValidation(){
+  this._formElement.addEventListener('submit', this._disabledSubmit);
+  this._formElement.addEventListener('input', () => {
+    this._toggleSubmit();
+  });
+  this._addResetEventListener();
+  this._addInputListeners();
+  this._toggleSubmit();
+}
+}
+
+export { FormValidator };
+
