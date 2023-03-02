@@ -1,5 +1,5 @@
-import {FormValidator}  from "./validate.js";
-import Cards from "./cards.js";
+import {FormValidator}  from "./FormValidator.js";
+import Card from "./Card.js";
 import { initialCards, validationConfig } from "./constants.js";
 
 
@@ -45,7 +45,7 @@ validateProfileForm.enableFormValidation();
 
 //функция открыте попапа с данными
 const createCard =(data) => {
-  const card = new Cards(data, '.card__template', setOpenImgPopupEventListener);
+  const card = new Card (data, '.card__template', handleImageClick);
   return card.generateCard(); 
 };
 
@@ -65,7 +65,7 @@ const closePopup = (popupElement) => {
 };
 
 // функция открытия попапа с картинкой
-const setOpenImgPopupEventListener = (photo) => {
+const handleImageClick = (photo) => {
   openPopup(popupImg);
 
   elementPopupTitle.textContent = photo.name;

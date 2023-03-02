@@ -5,11 +5,22 @@ class FormValidator {
     this._buttonSelector = validationConfig.buttonSelector;
     this._buttonDisabledClass = validationConfig.buttonDisabledClass;
     this._inputErrorClass = validationConfig.inputErrorClass;
+    this._buttonElement = this._formElement.querySelector(this._buttonSelector);
   }
 
 // функция дизейбл кнопки отправки
 _disabledSubmit(event) {
   event.preventDefault();
+}
+
+
+// деактивация кнопки - reset
+_addResetEventListener(){
+  this._formElement.addEventListener('reset', ()=> {
+    setTimeout(() => {
+      this._toggleSubmit();
+    }, 0);
+  })
 }
 
 
@@ -27,13 +38,14 @@ _handleFormInput(event) {
     errorItem.textContent = input.validationMessage;
   }
 }
-//функция проверки инпута => добавление или удаление класса и текста ошибки
+
+
+//функция проверки кнопки => добавление или удаление класса и текста ошибки
 _toggleSubmit(){
-  const buttonSubmit = this._formElement.querySelector(this._buttonSelector);
   const isFormValid = this._formElement.checkValidity();
 
-  buttonSubmit.disabled = !isFormValid;
-  buttonSubmit.classList.toggle(this._buttonDisabledClass, !isFormValid);
+  this._buttonElement.disabled = !isFormValid;
+  this._buttonElement.classList.toggle(this._buttonDisabledClass, !isFormValid);
 }
 
 
@@ -48,14 +60,7 @@ _addInputListeners(){
   });
 }
 
-// деактивация кнопки - reset
-_addResetEventListener(){
-  this._formElement.addEventListener('reset', ()=> {
-    setTimeout(() => {
-      this._toggleSubmit();
-    }, 0);
-  })
-}
+
 
 //валидация
 enableFormValidation(){

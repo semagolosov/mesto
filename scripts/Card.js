@@ -1,10 +1,10 @@
-export default class Cards {
-  constructor(data, templateSelector, setOpenImgPopupEventListener){
+export default class Card {
+  constructor(data, templateSelector, handleImageClick){
     this._name = data.name;
     this._link = data.link;
     this._alt = data.alt;
     this._templateSelector = templateSelector;
-    this._setOpenImgPopupEventListener = setOpenImgPopupEventListener;
+    this._handleImageClick = handleImageClick;
   }
 
   //шаблон
@@ -58,7 +58,7 @@ _setEventListener(){
   });
 
   this._photo.addEventListener('click', () => {
-    this._setOpenImgPopupEventListener({
+    this._handleImageClick({
       link: this._link,
       name: this._name,
       alt: this._alt,
